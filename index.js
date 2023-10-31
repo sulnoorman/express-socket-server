@@ -15,11 +15,9 @@ const io = new Server(server);
 // import function to connect to mongodb
 const { connect, getConnectedClient } = require('./db/db.js');
 
-const router = express.Router();
-
 // middleware app
 app.use(cors());
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 // connecting to database
 connect().then(() => {
@@ -49,3 +47,5 @@ connect().then(() => {
 server.listen(PORT, () => {
     console.log('server running succesfully on port ' + PORT + '!');
 });
+
+module.exports = app
