@@ -1,0 +1,19 @@
+{
+  "name": "node_api",
+  "version": "1.0.0",
+  "description": "api for fluter_chat_app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "mongodb": "^6.2.0",
+    "nodemon": "^3.0.1",
+    "socket.io": "^4.4.1"
+  }
+}
