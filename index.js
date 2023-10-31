@@ -14,33 +14,36 @@ const io = new Server(server);
 // import function to connect to mongodb
 const { connect, getConnectedClient } = require('./db/db.js');
 
+const router = express.Router();
+
 // middleware app
 app.use(cors());
 app.use(express.static('public'));
-
-app.get('/api', function (req, res) {
-    res.json({ msg: 'Hallow Guyss!' })
-});
+app.use(router);
 
 // connecting to database
-// connect().then(() => {
-//     console.log('connect to database');
+connect().then(() => {
+    console.log('connect to database');
 
-
-// })
-
-io.on('connection', (socket) => {
-    console.log('connect to socket io', socket.id);
-
-    socket.on('connectError', (error) => {
-        console.error('Socket error:', error);
+    router.get("/api", (req, res) => {
+        res.status(200);
+        res.json({ message: 'Welcome to server app' })
     })
 
-    socket.emit('message', { msg: 'Hello! You already connected to the socket io server' })
+    io.on('connection', (socket) => {
+        console.log('connect to socket io', socket.id);
 
-    socket.on('input', (data) => {
-        io.emit('output', data);
+        socket.on('connectError', (error) => {
+            console.error('Socket error:', error);
+        })
+
+        socket.emit('message', { msg: 'Hello! You already connected to the socket io server' })
+
+        socket.on('input', (data) => {
+            io.emit('output', data);
+        })
     })
+
 })
 
 server.listen(PORT, () => {
