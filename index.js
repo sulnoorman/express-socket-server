@@ -7,6 +7,7 @@ const { PORT } = require('./shared');
 
 const app = express();
 const server = http.createServer(app);
+const appRouter = require('./router');
 
 // define socket.i0
 const io = new Server(server);
@@ -19,16 +20,15 @@ const router = express.Router();
 // middleware app
 app.use(cors());
 app.use(express.static('public'));
-app.use(router);
 
 // connecting to database
 connect().then(() => {
     console.log('connect to database');
+    app.get('/', (req, res) => [
+        res.send('<h1>Selamat Datang</h1>')
+    ]);
 
-    router.get("/api", (req, res) => {
-        res.status(200);
-        res.json({ message: 'Welcome to server app' })
-    })
+    app.use('/api', appRouter);
 
     io.on('connection', (socket) => {
         console.log('connect to socket io', socket.id);
