@@ -18,26 +18,28 @@ const { connect, getConnectedClient } = require('./db/db.js');
 app.use(cors());
 app.use(express.static('public'));
 
-app.get('/', function (req, res) {
-    res.json({msg: 'Hallow Guyss!'})
+app.get('/api', function (req, res) {
+    res.json({ msg: 'Hallow Guyss!' })
 });
 
 // connecting to database
-connect().then(() => {
-    console.log('connect to database');
+// connect().then(() => {
+//     console.log('connect to database');
 
-    io.on('connection', (socket) => {
-        console.log('connect to socket io', socket.id);
 
-        socket.on('connectError', (error) => {
-            console.error('Socket error:', error);
-        })
+// })
 
-        socket.emit('message', { msg: 'Hello! You already connected to the socket io server' })
+io.on('connection', (socket) => {
+    console.log('connect to socket io', socket.id);
 
-        socket.on('input', (data) => {
-            io.emit('output', data);
-        })
+    socket.on('connectError', (error) => {
+        console.error('Socket error:', error);
+    })
+
+    socket.emit('message', { msg: 'Hello! You already connected to the socket io server' })
+
+    socket.on('input', (data) => {
+        io.emit('output', data);
     })
 })
 
