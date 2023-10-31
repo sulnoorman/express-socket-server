@@ -24,9 +24,9 @@ app.use(express.static('public'));
 // connecting to database
 connect().then(() => {
     console.log('connect to database');
-    app.get('/', (req, res) => [
+    app.get('/', (req, res) => {
         res.send('<h1>Selamat Datang</h1>')
-    ]);
+    });
 
     app.use('/api', appRouter);
 
